@@ -1,31 +1,27 @@
 package com.telzz.sub.response;
 
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.http.HttpStatus;
-
+import java.util.HashMap;
 import java.util.Map;
 
-@Builder
-@AllArgsConstructor
-@NotBlank
-@Data
 public class ApiResponse {
-    private Boolean success;
-    private HttpStatus statusCode;
-    private String message;
-    private Object data;
-    private Map<String, String> errors;
-
-    public ApiResponse(Object data){
-        this.success = true;
-        this.statusCode = HttpStatus.OK;
-        this.data = data;
+    public static Map<String, Object> success(Object object){
+        if(object instanceof String){
+            return response(true, "message", object);
+        }
+        return response(true, "data", object);
     }
 
-    public Integer getStatusCode(){
-        return this.statusCode.value();
+    public static Map<String, Object> error(Object object){
+        if(object instanceof String){
+            return response(false, "message", object);
+        }
+        return response(false, "errors", object);
+    }
+
+    private static Map<String, Object> response(boolean success, String objectKey, Object object){
+        Map<String, Object> data = new HashMap<>();
+        data.put("success", success);
+        data.put(objectKey, object);
+        return data;
     }
 }

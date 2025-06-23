@@ -1,15 +1,13 @@
 package com.telzz.sub.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @Entity
 @Table(name = "users")
 public class User {
@@ -18,11 +16,8 @@ public class User {
     private Long id;
     private String firstName;
     private String lastName;
+
+    @Column(unique = true)
     private String emailAddress;
     private String password;
-
-    @Override
-    public String toString(){
-        return String.format("User(id=%d, name=%s, email=%s)", id, firstName, emailAddress);
-    }
 }
