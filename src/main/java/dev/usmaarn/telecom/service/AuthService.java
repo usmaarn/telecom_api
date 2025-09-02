@@ -43,8 +43,16 @@ public class AuthService {
             throw new BadRequestException(errorMap);
         }
 
-        User user = userService.createUser(createAccountDto);
-        Token token = tokenService.createToken(user);
+        User user = User.builder()
+                .firstName(createAccountDto.getFirstName())
+                .lastName(createAccountDto.getLastName())
+                .email(createAccountDto.getEmail())
+                .phoneNumber("+234".concat(createAccountDto.getPhoneNumber()))
+                .password(passwordEncoder.encode(createAccountDto.getPassword()))
+                .referrer(userService.findByReferrerId(createAccountDto.getReferrerId()))
+                .build();
+        User createdUser = userService.createUser(user);
+        Token token = tokenService.createToken(createdUser);
         return TokenMapper.mapToDto(token);
     }
 

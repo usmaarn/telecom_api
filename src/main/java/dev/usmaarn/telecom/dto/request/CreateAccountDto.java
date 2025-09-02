@@ -4,10 +4,14 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.Getter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 @Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreateAccountDto {
     @NotBlank
     @Pattern(regexp = "^[a-zA-Z]+$", message = "field is not valid")
